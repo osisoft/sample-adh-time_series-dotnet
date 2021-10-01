@@ -52,7 +52,7 @@ namespace SdsTsDotNet
                 var namespaceId = _configuration["NamespaceId"];
                 var resource = _configuration["Resource"];
                 var clientId = _configuration["ClientId"];
-                var clientKey = _configuration["ClientKey"];
+                var clientSecret = _configuration["ClientSecret"];
                 #endregion
 
                 (_configuration as ConfigurationRoot).Dispose();
@@ -61,7 +61,7 @@ namespace SdsTsDotNet
                 // Step 1 
                 // Get Sds Services to communicate with server
                 #region step1
-                AuthenticationHandler authenticationHandler = new AuthenticationHandler(uriResource, clientId, clientKey);
+                AuthenticationHandler authenticationHandler = new AuthenticationHandler(uriResource, clientId, clientSecret);
 
                 SdsService sdsService = new SdsService(new Uri(resource), authenticationHandler);
                 metadataService = sdsService.GetMetadataService(tenantId, namespaceId);
