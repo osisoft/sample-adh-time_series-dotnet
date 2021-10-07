@@ -1,5 +1,10 @@
 # Version History
 
+## 1.1.18 / 2021-10-07
+
+- Update pipelines to use Azure Key Vault for secrets
+- Changed ClientKey to ClientSecret in appsettings.json
+
 ## 1.1.17 / 2021-09-07
 
 - Updated dependencies
