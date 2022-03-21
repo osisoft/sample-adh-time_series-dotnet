@@ -168,11 +168,11 @@ namespace SdsTsDotNet
                 if (test)
                 {
                     // Testing to make sure we get back expected stuff
-                    if (string.Compare(JsonConvert.SerializeObject(resultsPressure.First()), "{\"Time\":\"2017-01-11T22:21:23.43Z\",\"Value\":346.0}", StringComparison.OrdinalIgnoreCase) != 0)
+                    if (!string.Equals(JsonConvert.SerializeObject(resultsPressure.First()), "{\"Time\":\"2017-01-11T22:21:23.43Z\",\"Value\":346.0}", StringComparison.OrdinalIgnoreCase))
                         throw new Exception("Value retrieved isn't expected value for pressure of Tank1");
 
-                    if (string.Compare(JsonConvert.SerializeObject(resultsTank.First()), "{\"Time\":\"2017-01-11T22:21:23.43Z\",\"Pressure\":346.0,\"Temperature\":91.0}", StringComparison.OrdinalIgnoreCase) != 0)
-                        throw new Exception("Value retrieved isn't expected value for Temeprature from Tank1");
+                    if (!string.Equals(JsonConvert.SerializeObject(resultsTank.First()), "{\"Time\":\"2017-01-11T22:21:23.43Z\",\"Pressure\":346.0,\"Temperature\":91.0}", StringComparison.OrdinalIgnoreCase))
+                        throw new Exception("Value retrieved isn't expected value for Temperature from Tank1");
                 }
 
                 // Step 10
