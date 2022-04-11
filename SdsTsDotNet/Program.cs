@@ -28,14 +28,14 @@ namespace SdsTsDotNet
             ISdsMetadataService metadataService = null;
 
             #region settings
-            var typeValueTimeName = "Value_Time";
-            var typePressureTemperatureTimeName = "Pressure_Temp_Time";
+            string typeValueTimeName = "Value_Time";
+            string typePressureTemperatureTimeName = "Pressure_Temp_Time";
 
-            var streamPressureName = "Pressure_Tank1";
-            var streamTempName = "Temperature_Tank1";
-            var streamTank0 = "Vessel";
-            var streamTank1 = "Tank1";
-            var streamTank2 = "Tank2";
+            string streamPressureName = "Pressure_Tank1";
+            string streamTempName = "Temperature_Tank1";
+            string streamTank0 = "Vessel";
+            string streamTank1 = "Tank1";
+            string streamTank2 = "Tank2";
             #endregion
 
             try
@@ -48,15 +48,15 @@ namespace SdsTsDotNet
                     .AddJsonFile("appsettings.test.json", optional: true)
                     .Build();
 
-                var tenantId = _configuration["TenantId"];
-                var namespaceId = _configuration["NamespaceId"];
-                var resource = _configuration["Resource"];
-                var clientId = _configuration["ClientId"];
-                var clientSecret = _configuration["ClientSecret"];
+                string tenantId = _configuration["TenantId"];
+                string namespaceId = _configuration["NamespaceId"];
+                string resource = _configuration["Resource"];
+                string clientId = _configuration["ClientId"];
+                string clientSecret = _configuration["ClientSecret"];
                 #endregion
 
                 (_configuration as ConfigurationRoot).Dispose();
-                var uriResource = new Uri(resource);
+                Uri uriResource = new Uri(resource);
 
                 // Step 1 
                 // Get Sds Services to communicate with server
@@ -65,8 +65,8 @@ namespace SdsTsDotNet
 
                 SdsService sdsService = new SdsService(new Uri(resource), authenticationHandler);
                 metadataService = sdsService.GetMetadataService(tenantId, namespaceId);
-                var dataService = sdsService.GetDataService(tenantId, namespaceId);
-                var tableService = sdsService.GetTableService(tenantId, namespaceId);
+                ISdsDataService dataService = sdsService.GetDataService(tenantId, namespaceId);
+                ISdsTableService tableService = sdsService.GetTableService(tenantId, namespaceId);
                 #endregion
 
                 // Step 2
@@ -87,7 +87,7 @@ namespace SdsTsDotNet
                 };
                 pressure_stream = await metadataService.GetOrCreateStreamAsync(pressure_stream).ConfigureAwait(false);
 
-                var temperature_stream = new SdsStream
+                SdsStream temperature_stream = new SdsStream
                 {
                     Id = streamTempName,
                     TypeId = type.Id,
@@ -114,7 +114,7 @@ namespace SdsTsDotNet
                 // Step 6
                 // create complex type stream
                 #region step6
-                var tankStream = new SdsStream
+                SdsStream tankStream = new SdsStream
                 {
                     Id = streamTank1,
                     TypeId = tankType.Id,
@@ -126,7 +126,7 @@ namespace SdsTsDotNet
                 // Step 7
                 // insert complex data
                 #region step7
-                var data = GetData();
+                IList<PressureTemperatureData> data = GetData();
                 await dataService.InsertValuesAsync(streamTank1, data).ConfigureAwait(false);
                 #endregion
 
@@ -134,11 +134,11 @@ namespace SdsTsDotNet
                 //  view data
                 // note: step 9 is not done in this example as the JSON conversion by the library takes care of it automatically for you
                 #region step8
-                var sortedData = data.OrderBy(entry => entry.Time).ToList();
-                var firstTime = sortedData.First();
-                var lastTime = sortedData.Last();
+                List<PressureTemperatureData> sortedData = data.OrderBy(entry => entry.Time).ToList();
+                PressureTemperatureData firstTime = sortedData.First();
+                PressureTemperatureData lastTime = sortedData.Last();
 
-                var resultsPressure = (await dataService.GetWindowValuesAsync<TimeData>(
+                List<TimeData> resultsPressure = (await dataService.GetWindowValuesAsync<TimeData>(
                     streamPressureName, 
                     firstTime.Time.ToUniversalTime().ToString("o", CultureInfo.InvariantCulture), 
                     lastTime.Time.ToUniversalTime().ToString("o", CultureInfo.InvariantCulture))
@@ -146,12 +146,12 @@ namespace SdsTsDotNet
                     .ToList();
 
                 Console.WriteLine("Values from Pressure of Tank1:");
-                foreach (var evnt in resultsPressure)
+                foreach (TimeData evnt in resultsPressure)
                 {
                     Console.WriteLine(JsonConvert.SerializeObject(evnt));
                 }
 
-                var resultsTank = (await dataService.GetWindowValuesAsync<PressureTemperatureData>(
+                List<PressureTemperatureData> resultsTank = (await dataService.GetWindowValuesAsync<PressureTemperatureData>(
                     streamTank1, 
                     firstTime.Time.ToUniversalTime().ToString("o", CultureInfo.InvariantCulture), 
                     lastTime.Time.ToUniversalTime().ToString("o", CultureInfo.InvariantCulture))
@@ -159,7 +159,7 @@ namespace SdsTsDotNet
                     .ToList();
 
                 Console.WriteLine("Values from Tank1:");
-                foreach (var evnt in resultsTank)
+                foreach (PressureTemperatureData evnt in resultsTank)
                 {
                     Console.WriteLine(JsonConvert.SerializeObject(evnt));
                 }
@@ -178,7 +178,7 @@ namespace SdsTsDotNet
                 // Step 10
                 //  view summary data
                 #region step10
-                var resultsTankSummary = (await dataService.GetIntervalsAsync<PressureTemperatureData>(
+                List<SdsInterval<PressureTemperatureData>> resultsTankSummary = (await dataService.GetIntervalsAsync<PressureTemperatureData>(
                     streamTank1,
                     firstTime.Time.ToUniversalTime().ToString("o", CultureInfo.InvariantCulture),
                     lastTime.Time.ToUniversalTime().ToString("o", CultureInfo.InvariantCulture),
@@ -187,7 +187,7 @@ namespace SdsTsDotNet
                     .ToList();
 
                 Console.WriteLine("Summaries from Tank1:");
-                foreach (var evnt in resultsTankSummary)
+                foreach (SdsInterval<PressureTemperatureData> evnt in resultsTankSummary)
                 {
                     Console.WriteLine(JsonConvert.SerializeObject(evnt.Summaries));
                 }
@@ -196,14 +196,14 @@ namespace SdsTsDotNet
                 // Step 11
                 //  Bulk calls
                 #region step11a
-                var tankStream0 = new SdsStream
+                SdsStream tankStream0 = new SdsStream
                 {
                     Id = streamTank0,
                     TypeId = tankType.Id,
                 };
                 tankStream = await metadataService.GetOrCreateStreamAsync(tankStream0).ConfigureAwait(false);
 
-                var tankStream2 = new SdsStream
+                SdsStream tankStream2 = new SdsStream
                 {
                     Id = streamTank2,
                     TypeId = tankType.Id,
@@ -211,10 +211,10 @@ namespace SdsTsDotNet
                 };
                 tankStream2 = await metadataService.GetOrCreateStreamAsync(tankStream2).ConfigureAwait(false);
 
-                var data2 = GetData2();
-                var sortedData2 = data2.OrderBy(entry => entry.Time).ToList();
-                var firstTime2 = sortedData2.First();
-                var lastTime2 = sortedData2.Last();
+                IList<PressureTemperatureData> data2 = GetData2();
+                List<PressureTemperatureData> sortedData2 = data2.OrderBy(entry => entry.Time).ToList();
+                PressureTemperatureData firstTime2 = sortedData2.First();
+                PressureTemperatureData lastTime2 = sortedData2.Last();
 
                 await dataService.InsertValuesAsync(tankStream2.Id, data2).ConfigureAwait(false);
                 await dataService.InsertValuesAsync(tankStream0.Id, GetData()).ConfigureAwait(false);
@@ -224,7 +224,7 @@ namespace SdsTsDotNet
                 Thread.Sleep(200); // slight rest here for consistency
 
                 #region step11b
-                var results2Tanks = await dataService.GetJoinValuesAsync<PressureTemperatureData>(
+                IEnumerable<IList<PressureTemperatureData>> results2Tanks = await dataService.GetJoinValuesAsync<PressureTemperatureData>(
                     new string[] { tankStream0.Id, tankStream2.Id },
                     SdsJoinType.Outer,
                     firstTime2.Time.ToUniversalTime().ToString("o", CultureInfo.InvariantCulture),
@@ -235,9 +235,9 @@ namespace SdsTsDotNet
                 Console.WriteLine();
                 Console.WriteLine($"Bulk Values:   {tankStream0.Id}  then {tankStream2.Id}: ");
                 Console.WriteLine();
-                foreach (var tankResult in results2Tanks)
+                foreach (IList<PressureTemperatureData> tankResult in results2Tanks)
                 {
-                    foreach (var dataEntry in tankResult)
+                    foreach (PressureTemperatureData dataEntry in tankResult)
                     {
                         Console.WriteLine(JsonConvert.SerializeObject(dataEntry));
                     }
@@ -293,13 +293,13 @@ namespace SdsTsDotNet
         #region step4b
         public static IList<TimeData> GetPressureData()
         {
-            var data = GetData();
+            IList<PressureTemperatureData> data = GetData();
             return data.Select(entry => new TimeData() { Time = entry.Time, Value = entry.Pressure }).ToList();
         }
 
         public static IList<TimeData> GetTemperatureData()
         {
-            var data = GetData();
+            IList<PressureTemperatureData> data = GetData();
             return data.Select(entry => new TimeData() { Time = entry.Time, Value = entry.Temperature }).ToList();
         }
         #endregion
@@ -307,7 +307,7 @@ namespace SdsTsDotNet
         #region step4a
         public static IList<PressureTemperatureData> GetData()
         {
-            var values = new List<PressureTemperatureData>
+            List<PressureTemperatureData> values = new List<PressureTemperatureData>
             {
                 new PressureTemperatureData() { Pressure = 346, Temperature = 91, Time = DateTime.Parse("2017-01-11T22:21:23.430Z", CultureInfo.InvariantCulture) },
                 new PressureTemperatureData() { Pressure = 0, Temperature = 0, Time = DateTime.Parse("2017-01-11T22:22:23.430Z", CultureInfo.InvariantCulture) },
@@ -324,7 +324,7 @@ namespace SdsTsDotNet
 
         public static IList<PressureTemperatureData> GetData2()
         {
-            var values = new List<PressureTemperatureData>
+            List<PressureTemperatureData> values = new List<PressureTemperatureData>
             {
                 new PressureTemperatureData() { Pressure = 345, Temperature = 89, Time = DateTime.Parse("2017-01-11T22:20:23.430Z", CultureInfo.InvariantCulture) },
                 new PressureTemperatureData() { Pressure = 356, Temperature = 0, Time = DateTime.Parse("2017-01-11T22:21:23.430Z", CultureInfo.InvariantCulture) },
