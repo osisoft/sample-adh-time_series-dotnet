@@ -351,10 +351,7 @@ namespace SdsTsDotNet
             catch (Exception ex)
             {
                 Console.WriteLine($"Got error in {methodToRun.Method.Name} with value {value} but continued on:" + ex.Message);
-                if (_toThrow == null)
-                {
-                    _toThrow = ex;
-                }
+                _toThrow ??= ex;
             }
         }
 
