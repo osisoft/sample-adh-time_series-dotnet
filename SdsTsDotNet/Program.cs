@@ -56,14 +56,14 @@ namespace SdsTsDotNet
                 #endregion
 
                 (_configuration as ConfigurationRoot).Dispose();
-                Uri uriResource = new Uri(resource);
+                Uri uriResource = new (resource);
 
                 // Step 1 
                 // Get Sds Services to communicate with server
                 #region step1
-                AuthenticationHandler authenticationHandler = new AuthenticationHandler(uriResource, clientId, clientSecret);
+                AuthenticationHandler authenticationHandler = new (uriResource, clientId, clientSecret);
 
-                SdsService sdsService = new SdsService(new Uri(resource), authenticationHandler);
+                SdsService sdsService = new (new Uri(resource), authenticationHandler);
                 metadataService = sdsService.GetMetadataService(tenantId, namespaceId);
                 ISdsDataService dataService = sdsService.GetDataService(tenantId, namespaceId);
                 ISdsTableService tableService = sdsService.GetTableService(tenantId, namespaceId);
@@ -79,27 +79,27 @@ namespace SdsTsDotNet
                 // Step 3
                 // create an SdsStream
                 #region step3
-                var pressure_stream = new SdsStream
+                SdsStream pressureStream = new ()
                 {
                     Id = streamPressureName,
                     TypeId = type.Id,
                     Description = "A stream for pressure data of tank1",
                 };
-                pressure_stream = await metadataService.GetOrCreateStreamAsync(pressure_stream).ConfigureAwait(false);
+                pressureStream = await metadataService.GetOrCreateStreamAsync(pressureStream).ConfigureAwait(false);
 
-                SdsStream temperature_stream = new SdsStream
+                SdsStream temperatureStream = new ()
                 {
                     Id = streamTempName,
                     TypeId = type.Id,
                     Description = "A stream for temperature data of tank1",
                 };
-                temperature_stream = await metadataService.GetOrCreateStreamAsync(temperature_stream).ConfigureAwait(false);
+                temperatureStream = await metadataService.GetOrCreateStreamAsync(temperatureStream).ConfigureAwait(false);
                 #endregion
 
                 // Step 4
                 // insert simple data
                 #region step4c
-                await dataService.InsertValuesAsync(pressure_stream.Id, GetPressureData()).ConfigureAwait(false);
+                await dataService.InsertValuesAsync(pressureStream.Id, GetPressureData()).ConfigureAwait(false);
                 await dataService.InsertValuesAsync(streamTempName, GetTemperatureData()).ConfigureAwait(false);
                 #endregion
             
@@ -114,7 +114,7 @@ namespace SdsTsDotNet
                 // Step 6
                 // create complex type stream
                 #region step6
-                SdsStream tankStream = new SdsStream
+                SdsStream tankStream = new ()
                 {
                     Id = streamTank1,
                     TypeId = tankType.Id,
@@ -196,14 +196,14 @@ namespace SdsTsDotNet
                 // Step 11
                 //  Bulk calls
                 #region step11a
-                SdsStream tankStream0 = new SdsStream
+                SdsStream tankStream0 = new ()
                 {
                     Id = streamTank0,
                     TypeId = tankType.Id,
                 };
                 tankStream = await metadataService.GetOrCreateStreamAsync(tankStream0).ConfigureAwait(false);
 
-                SdsStream tankStream2 = new SdsStream
+                SdsStream tankStream2 = new ()
                 {
                     Id = streamTank2,
                     TypeId = tankType.Id,
@@ -307,7 +307,7 @@ namespace SdsTsDotNet
         #region step4a
         public static IList<PressureTemperatureData> GetData()
         {
-            List<PressureTemperatureData> values = new List<PressureTemperatureData>
+            List<PressureTemperatureData> values = new ()
             {
                 new PressureTemperatureData() { Pressure = 346, Temperature = 91, Time = DateTime.Parse("2017-01-11T22:21:23.430Z", CultureInfo.InvariantCulture) },
                 new PressureTemperatureData() { Pressure = 0, Temperature = 0, Time = DateTime.Parse("2017-01-11T22:22:23.430Z", CultureInfo.InvariantCulture) },
@@ -324,7 +324,7 @@ namespace SdsTsDotNet
 
         public static IList<PressureTemperatureData> GetData2()
         {
-            List<PressureTemperatureData> values = new List<PressureTemperatureData>
+            List<PressureTemperatureData> values = new ()
             {
                 new PressureTemperatureData() { Pressure = 345, Temperature = 89, Time = DateTime.Parse("2017-01-11T22:20:23.430Z", CultureInfo.InvariantCulture) },
                 new PressureTemperatureData() { Pressure = 356, Temperature = 0, Time = DateTime.Parse("2017-01-11T22:21:23.430Z", CultureInfo.InvariantCulture) },
