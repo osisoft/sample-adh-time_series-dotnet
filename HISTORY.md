@@ -1,5 +1,9 @@
 # Version History
 
+## 1.1.23 / 2022-04-11
+
+- Replaced var with explict types
+
 ## 1.1.22 / 2022-03-15
 
 - Updated dependencies
