@@ -3,7 +3,7 @@
 | :loudspeaker: **Notice**: Samples have been updated to reflect that they work on AVEVA Data Hub. The samples also work on OSIsoft Cloud Services unless otherwise noted. |
 | -----------------------------------------------------------------------------------------------|  
 
-**Version:** 1.1.23
+**Version:** 1.2.0
 
 [![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/ADH/aveva.sample-adh-time_series-dotnet?branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=2623&branchName=main)
 
@@ -13,7 +13,7 @@ When working in .NET, it is recommended that you use the ADH Client Libraries me
 
 [SDS documentation](https://ocs-docs.osisoft.com/Content_Portal/Documentation/SequentialDataStore/Data_Store_and_SDS.html)
 
-Developed against DotNet 5.0.
+Developed against DotNet 6.0.
 
 ## Getting Started
 
