@@ -2,13 +2,13 @@
 
 **Version:** 1.2.5
 
-[![Build Status](https://dev.azure.com/osieng/engineering/_apis/build/status/product-readiness/ADH/aveva.sample-adh-time_series-dotnet?branchName=main)](https://dev.azure.com/osieng/engineering/_build/latest?definitionId=2623&branchName=main)
+[![Build Status](https://dev.azure.com/AVEVA-VSTS/Cloud%20Platform/_apis/build/status%2Fproduct-readiness%2FADH%2FAVEVA.sample-adh-time_series-dotnet?repoName=AVEVA%2Fsample-adh-time_series-dotnet&branchName=main)](https://dev.azure.com/AVEVA-VSTS/Cloud%20Platform/_build/latest?definitionId=16144&repoName=AVEVA%2Fsample-adh-time_series-dotnet&branchName=main)
 
-The sample code in this topic demonstrates how to invoke the ADH client library. By examining the code, you will see how to create an SdsType and SdsStream, and how to create, read, update, and delete values in SDS. You will also see the summaries value call, and how to do bulk streams calls.
+The sample code in this topic demonstrates how to invoke the Cds client library. By examining the code, you will see how to create an SdsType and SdsStream, and how to create, read, update, and delete values in SDS. You will also see the summaries value call, and how to do bulk streams calls.
 
-When working in .NET, it is recommended that you use the ADH Client Libraries metapackage, OSIsoft.OCSClients. The metapackage is a NuGet package available from [https://api.nuget.org/v3/index.json](https://api.nuget.org/v3/index.json). The libraries offer a framework of classes that make client development easier.
+When working in .NET, it is recommended that you use the Cds Client Libraries metapackage, OSIsoft.OCSClients. The metapackage is a NuGet package available from [https://api.nuget.org/v3/index.json](https://api.nuget.org/v3/index.json). The libraries offer a framework of classes that make client development easier.
 
-[SDS documentation](https://ocs-docs.osisoft.com/Content_Portal/Documentation/SequentialDataStore/Data_Store_and_SDS.html)
+[SDS documentation](https://docs.aveva.com/bundle/data-hub/page/developer-guide/sequential-data-store-dev/sds-quick-start.html)
 
 Developed against DotNet 6.0.
 
@@ -65,6 +65,6 @@ Note: you do not have to use this sample in Try .NET. It will work like any othe
 
 ---
 
-For the main ADH time series samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS/blob/main/docs/SDS_TIME_SERIES.md)  
-For the main ADH samples page [ReadMe](https://github.com/osisoft/OSI-Samples-OCS)  
-For the main AVEVA samples page [ReadMe](https://github.com/osisoft/OSI-Samples)
+For the main Cds time series samples page [ReadMe](https://github.com/AVEVA/AVEVA-Samples-CloudOperations/blob/main/docs/SDS_TIME_SERIES.md)  
+For the main Cds samples page [ReadMe](https://github.com/AVEVA/AVEVA-Samples-CloudOperations)  
+For the main AVEVA samples page [ReadMe](https://github.com/AVEVA/AVEVA-Samples)
