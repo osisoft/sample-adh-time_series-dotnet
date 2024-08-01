@@ -10,13 +10,13 @@ The first time you press "TestSample >" on the page it might take a few minutes 
 
 ## Narrative
 
-For this sample we are someone who wants to store and retrieve data from 3 different tanks; vessel, tank1 and tank2. These 3 different tanks have 2 value readings; pressure and temperature. To start we are only concerned with tank1, because we know once we get it setup we can easily scale to get the other data. We are collecting this data ourselves from the sensors directly. In this sample we explore different ways we can store the data in ADH and different ways we can retrieve the data.
+For this sample we are someone who wants to store and retrieve data from 3 different tanks; vessel, tank1 and tank2. These 3 different tanks have 2 value readings; pressure and temperature. To start we are only concerned with tank1, because we know once we get it setup we can easily scale to get the other data. We are collecting this data ourselves from the sensors directly. In this sample we explore different ways we can store the data in Cds and different ways we can retrieve the data.
 
 ## Sample
 
 ### Settings
 
-The first thing we need to do is setup the application to run. We need to know where we want to store this information in ADH. This includes knowing our TenantID, Namespace, and retreiving a Client ID and Client Key
+The first thing we need to do is setup the application to run. We need to know where we want to store this information in Cds. This includes knowing our TenantID, Namespace, and retreiving a Client ID and Client Key
 
 These variables are used to hold the configuration settings. Update these as appropriate.
 
@@ -24,7 +24,7 @@ These variables are used to hold the configuration settings. Update these as app
 
 ```
 
-With that information we now need to define the names of what we will store in ADH.
+With that information we now need to define the names of what we will store in Cds.
 
 These variables are used to create the Types and Strings. Update these as appropriate.
 
@@ -34,7 +34,7 @@ These variables are used to create the Types and Strings. Update these as approp
 
 ### Step 1. Instantiate an SDS client and Obtain an authentication token
 
-With basic settings and configuration ready we can now authenticate against ADH and initlize the ADH client library
+With basic settings and configuration ready we can now authenticate against Cds and initlize the Cds client library
 
 ```cs --source-file ./Program.cs --project ./SdsTsDotNet.csproj --region step1 --session TestSample
 
@@ -42,13 +42,13 @@ With basic settings and configuration ready we can now authenticate against ADH 
 
 ### Step 2. Create an SdsType to represent a time value pair
 
-We decide we are going to store the ADH as a Simple type that only has a value and a time-stamp. First we need to create the CLR type we want to represent in ADH.
+We decide we are going to store the Cds as a Simple type that only has a value and a time-stamp. First we need to create the CLR type we want to represent in Cds.
 
 ```cs --source-file ./TimeData.cs --project ./SdsTsDotNet.csproj --region step2a --session TestSample
 
 ```
 
-Once we have that we create the type in ADH using the SdsTypeBuilder to build the SdSType and then use the metadataservice to create the type.
+Once we have that we create the type in Cds using the SdsTypeBuilder to build the SdSType and then use the metadataservice to create the type.
 
 ```cs --source-file ./Program.cs --project ./SdsTsDotNet.csproj --region step2b --session TestSample
 
@@ -98,7 +98,7 @@ At this point we decide we want to try storing a complex type. So we can store t
 
 ```
 
-With the class defined we take advantage of how we can create the type in ADH using the SdsTypeBuilder to build the SdSType and then the metadataservice to create the type.
+With the class defined we take advantage of how we can create the type in Cds using the SdsTypeBuilder to build the SdSType and then the metadataservice to create the type.
 
 ```cs --source-file ./Program.cs --project ./SdsTsDotNet.csproj --region step5b --session TestSample
 
@@ -122,7 +122,7 @@ If you want to see the data that is being collected, look back at Step 4. Otherw
 
 ### Step 8 and Step 9. View window data
 
-At this point we should look to see how the data is stored on ADH and how we can view it. There are many different API calls and options for reading data. For simplicity we are going to get the timestamps from the data and use this to call for the full window data.
+At this point we should look to see how the data is stored on Cds and how we can view it. There are many different API calls and options for reading data. For simplicity we are going to get the timestamps from the data and use this to call for the full window data.
 
 ```cs --source-file ./Program.cs --project ./SdsTsDotNet.csproj --region step8 --session TestSample
 
